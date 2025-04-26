@@ -38,3 +38,4 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 - Better form validation
 - Better toast styling
 - Google auth
+- Add location API

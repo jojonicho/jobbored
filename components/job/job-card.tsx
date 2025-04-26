@@ -42,11 +42,13 @@ export const JobCard = ({
         {...props}
       >
         <CardHeader className="flex flex-row justify-between">
-          <div>
-            <CardTitle className={cn(isDetail && "text-4xl")}>
+          <div className="min-w-0 flex-1">
+            <CardTitle className={cn(isDetail ? "text-4xl" : "truncate")}>
               {job.title}
             </CardTitle>
-            <CardDescription>{job.company_name}</CardDescription>
+            <CardDescription className={cn(!isDetail && "truncate")}>
+              {job.company_name}
+            </CardDescription>
           </div>
           {isAdmin && (
             <Button
@@ -61,26 +63,26 @@ export const JobCard = ({
           )}
         </CardHeader>
         <CardContent className="grid gap-4">
-          <div className="flex items-center gap-2">
-            <MapPin size={12} />
-            <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium leading-none">{job.location}</p>
-            </div>
+          <div className="flex items-center gap-2 min-w-0">
+            <MapPin size={12} className="flex-shrink-0" />
+            <p className={cn("text-sm font-medium leading-none", !isDetail && "truncate")}>
+              {job.location}
+            </p>
           </div>
           <div className="flex items-center gap-2">
-            <Dot size={12} />
-            <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium leading-none">
-                {jobTypeEnumToStr(job.type)}
-              </p>
-            </div>
+            <Dot size={12} className="flex-shrink-0" />
+            <p className="text-sm font-medium leading-none">
+              {jobTypeEnumToStr(job.type)}
+            </p>
           </div>
         </CardContent>
         {isDetail && (
           <CardFooter>
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full">
               <h2 className="font-bold text-2xl">About the job</h2>
-              <text>{job.description}</text>
+              <p className={cn("whitespace-pre-wrap", !isDetail && "truncate")}>
+                {job.description}
+              </p>
             </div>
           </CardFooter>
         )}
