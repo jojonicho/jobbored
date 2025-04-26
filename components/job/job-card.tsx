@@ -13,18 +13,20 @@ import {
 import { jobTypeEnumToStr } from "@/utils/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { EllipsisVertical } from "lucide-react";
 import { Job } from "@/types/job";
+import { JobActions } from "@/components/job/job-admin-actions";
 
 type CardProps = React.ComponentProps<typeof Card> & {
   job: Job;
   isAdmin?: boolean;
   isDetail?: boolean;
+  onDelete?: Function;
 };
 
 export const JobCard = ({
   isAdmin = false,
   isDetail = false,
+  onDelete = () => {},
   job,
   className,
   ...props
@@ -54,19 +56,19 @@ export const JobCard = ({
                 e.preventDefault();
               }}
             >
-              <EllipsisVertical />
+              <JobActions jobId={job.id} onDelete={onDelete} />
             </Button>
           )}
         </CardHeader>
         <CardContent className="grid gap-4">
-          <div className="flex items-center space-x-4">
-            <MapPin />
+          <div className="flex items-center gap-2">
+            <MapPin size={12} />
             <div className="flex-1 space-y-1">
               <p className="text-sm font-medium leading-none">{job.location}</p>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <Dot />
+          <div className="flex items-center gap-2">
+            <Dot size={12} />
             <div className="flex-1 space-y-1">
               <p className="text-sm font-medium leading-none">
                 {jobTypeEnumToStr(job.type)}

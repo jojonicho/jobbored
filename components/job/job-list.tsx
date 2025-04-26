@@ -1,17 +1,6 @@
 "use client";
 
-import { MapPin, Dot } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
-import { cn } from "@/lib/utils";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { jobTypeEnumToStr } from "@/utils/utils";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Pagination,
@@ -34,7 +23,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { JobCard } from "./ui/job-card";
+import { JobCard } from "./job-card";
 import { Job } from "@/types/job";
 
 const jobTypes = [
@@ -200,7 +189,12 @@ export default function JobList({ isAdmin = false }) {
           </div>
         ) : (
           jobs.map((job) => (
-            <JobCard isAdmin={isAdmin} key={job.id} job={job} />
+            <JobCard
+              isAdmin={isAdmin}
+              key={job.id}
+              job={job}
+              onDelete={() => handlePageChange(1)}
+            />
           ))
         )}
       </div>

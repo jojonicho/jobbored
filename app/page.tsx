@@ -1,5 +1,5 @@
 import Hero from "@/components/hero";
-import JobList from "@/components/job-list";
+import JobList from "@/components/job/job-list";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { LogIn, FilePlus } from "lucide-react";

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import JobList from "@/components/job-list";
+import JobList from "@/components/job/job-list";
 import { createClient } from "@/utils/supabase/server";
 import { Plus } from "lucide-react";
 import { redirect } from "next/navigation";
