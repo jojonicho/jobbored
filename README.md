@@ -20,11 +20,15 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Approach
 
-TODO
+0. Create jobs table, FK to users table
+1. Supabase auth for email confirmation & user storage management
+2. Create single JobForm for both create and update
+3. Pagination for jobs to limit queries
+4. TailwindCSS + ShadCn for beautiful UI
 
 ## Architecture
 
-TODO
+![db-architecture](./db-architecture.png)
 
 ## What would you improve if given more time?
 

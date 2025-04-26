@@ -66,6 +66,8 @@ export default function JobList({ isAdmin = false }) {
       query = query.eq("type", type);
     }
 
+    query = query.order("created_at", { ascending: false });
+
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
 
