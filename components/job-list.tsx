@@ -32,8 +32,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Search, EllipsisVertical } from "lucide-react";
+import { Search } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { JobCard } from "./ui/job-card";
+import { Job } from "@/types/job";
 
 const jobTypes = [
   { label: "All Types", value: "all" },
@@ -43,64 +45,6 @@ const jobTypes = [
 ] as const;
 
 const PAGE_SIZE = 4;
-
-type Job = {
-  id: string;
-  title: string;
-  company_name: string;
-  location: string;
-  type: "full_time" | "part_time" | "contract";
-};
-
-type CardProps = React.ComponentProps<typeof Card> & {
-  job: Job;
-  isAdmin: boolean;
-};
-
-const JobCard = ({ isAdmin, job, className, ...props }: CardProps) => {
-  return (
-    <Link href={`/jobs/${job.id}`}>
-      <Card
-        className={cn("w-[380px] hover:border-gray-500", className)}
-        {...props}
-      >
-        <CardHeader className="flex flex-row justify-between">
-          <div>
-            <CardTitle>{job.title}</CardTitle>
-            <CardDescription>{job.company_name}</CardDescription>
-          </div>
-          {isAdmin && (
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <EllipsisVertical />
-            </Button>
-          )}
-        </CardHeader>
-        <CardContent className="grid gap-4">
-          <div className="flex items-center space-x-4">
-            <MapPin />
-            <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium leading-none">{job.location}</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Dot />
-            <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium leading-none">
-                {jobTypeEnumToStr(job.type)}
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
-  );
-};
 
 export default function JobList({ isAdmin = false }) {
   const router = useRouter();
@@ -221,7 +165,7 @@ export default function JobList({ isAdmin = false }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex gap-4 items-center justify-center">
+      <div className="flex gap-4 items-center justify-center flex-wrap">
         <Input
           placeholder="Filter by location..."
           value={location}

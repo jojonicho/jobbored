@@ -13,13 +13,13 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   return (
-    <>
+    <div className="flex flex-col gap-6">
       <Hero />
       <main className="flex-1 flex flex-col gap-6 items-center justify-center">
         <JobList />
       </main>
       <footer className="flex-1 flex flex-col gap-6 items-center justify-center">
-        <text className="font-medium text-xl gap-2">Hiring?</text>
+        <text className="font-medium text-3xl gap-2">Hiring?</text>
         {user ? (
           <Link href="/create">
             <Button className="font-medium text-xl gap-2">
@@ -36,8 +36,6 @@ export default async function Home() {
           </Link>
         )}
       </footer>
-    </>
+    </div>
   );
 }
-
-//{hasEnvVars ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
