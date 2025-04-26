@@ -13,22 +13,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { User } from "@supabase/supabase-js";
 
-export function NavUser({
-  user,
-  onLogout = () => {},
-}: {
-  user: {
-    email: string;
-  };
-}) {
+interface NavUserProps {
+  user: User;
+  onLogout: Function;
+}
+
+export function NavUser({ user, onLogout = () => {} }: NavUserProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="flex gap-2 items-center p-2">
           <Avatar className="h-8 w-8 rounded-lg grayscale">
             <AvatarFallback className="rounded-lg">
-              {user.email.substr(0, 2).toUpperCase()}
+              {user.email
+                ? user.email
+                    .substr(0, Math.max(2, user.email?.length))
+                    .toUpperCase()
+                : "NA"}
             </AvatarFallback>
           </Avatar>
           <div className="grid flex-1 text-left text-sm leading-tight">
@@ -52,7 +55,7 @@ export function NavUser({
           </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={onLogout} className="text-red-600">
+        <DropdownMenuItem onClick={onLogout as any} className="text-red-600">
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>

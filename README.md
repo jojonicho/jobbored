@@ -30,3 +30,7 @@ TODO
 
 - Two different user types (job-poster, job-seeker)
 - Can switch between these types through toggle
+- Add animations
+- Better form validation
+- Better toast styling
+- Google auth
