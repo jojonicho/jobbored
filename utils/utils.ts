@@ -14,3 +14,13 @@ export function encodedRedirect(
 ) {
   return redirect(`${path}?${type}=${encodeURIComponent(message)}`);
 }
+
+const jobTypeEnumMapping = {
+  full_time: "Full-Time",
+  contract: "Contract",
+  part_time: "Part-Time",
+};
+
+export function jobTypeEnumToStr(type: "full_time" | "contract" | "part_time") {
+  return jobTypeEnumMapping[type];
+}
