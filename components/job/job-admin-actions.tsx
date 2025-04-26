@@ -50,7 +50,7 @@ export function JobActions({ jobId, onDelete = () => {} }: JobActionsProps) {
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => router.push(`/jobs/${jobId}/edit`)}>
           <Pencil className="mr-2 h-4 w-4" />
-          <span>Update</span>
+          <span>Edit</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleDelete} className="text-red-600">
           <Trash2 className="mr-2 h-4 w-4" />

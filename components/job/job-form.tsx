@@ -31,25 +31,12 @@ import {
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createJobAction } from "@/app/actions";
 import { Job } from "@/types/job";
 
 const jobTypes = [
   { label: "Full-Time", value: "full_time" },
   { label: "Part-Time", value: "part_time" },
   { label: "Contract", value: "contract" },
-] as const;
-
-const textFields = [
-  {
-    label: "Title",
-    value: "title",
-  },
-  {
-    label: "Company name",
-    value: "company_name",
-    placeholder: "pied piper",
-  },
 ] as const;
 
 const FormSchema = z.object({
@@ -59,33 +46,39 @@ const FormSchema = z.object({
   type: z.string({
     required_error: "Please select a job type.",
   }),
-  ...Object.fromEntries(
-    textFields.map(({ label, value }) => [
-      value,
-      z.string({
-        required_error: `Please provide a ${label}`,
-      }),
-    ]),
-  ),
+  title: z.string({
+    required_error: "Please provide a title.",
+  }),
+  company_name: z.string({
+    required_error: "Please provide a company name.",
+  }),
   location: z.string({
     required_error: "Please provide a location.",
   }),
 });
 
 interface JobFormProps {
-    job?: Job
+  initialData?: Job;
+  onSubmit: Function;
 }
 
-export const JobForm = ({job}: JobFormProps) => {
+export const JobForm = ({ initialData, onSubmit = () => {} }: JobFormProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      title: initialData?.title || "",
+      company_name: initialData?.company_name || "",
+      location: initialData?.location || "",
+      description: initialData?.description || "",
+      type: initialData?.type || "",
+    },
   });
   const {
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    const error = await createJobAction(data);
+  const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
+    const error = await onSubmit(data);
     if (error) {
       toast({
         variant: "destructive",
@@ -103,23 +96,34 @@ export const JobForm = ({job}: JobFormProps) => {
   return (
     <div className="w-full ">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {textFields.map(({ label, value, placeholder }: any) => (
-            <FormField
-              key={value}
-              control={form.control}
-              name={value}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{label}</FormLabel>
-                  <FormControl>
-                    <Input placeholder={placeholder} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="company_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Company name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}
@@ -215,4 +219,4 @@ export const JobForm = ({job}: JobFormProps) => {
       </Form>
     </div>
   );
-}
+};

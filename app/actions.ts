@@ -147,3 +147,29 @@ export const createJobAction = async (data = {}) => {
   }
   return redirect("/me");
 };
+
+export const updateJobAction = async (id: String, data = {}) => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return encodedRedirect(
+      "error",
+      "/sign-in",
+      "Must be signed in to update a job",
+    );
+  }
+
+  const { error } = await supabase
+    .from("jobs")
+    .update({
+      ...data,
+      user_id: user.id,
+    })
+    .eq("id", id);
+  if (error) {
+    return error;
+  }
+  return redirect("/me");
+};
