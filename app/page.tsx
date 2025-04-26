@@ -30,7 +30,7 @@ export default async function Home() {
         ) : (
           <Link href="/sign-up">
             <Button className="font-medium text-xl gap-2">
-              Sign up
+              Sign up to create a job
               <LogIn />
             </Button>
           </Link>
