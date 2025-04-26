@@ -1,4 +1,5 @@
 import { JobCard } from "@/components/ui/job-card";
+import { BackButton } from "@/components/back-button";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function JobsDetailPage({
@@ -13,5 +14,11 @@ export default async function JobsDetailPage({
     .select()
     .eq("id", id)
     .single();
-  return <JobCard job={job} isAdmin={false} isDetail />;
+
+  return (
+    <div>
+      <BackButton />
+      <JobCard job={job} isAdmin={false} isDetail />
+    </div>
+  );
 }
